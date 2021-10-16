@@ -1,3 +1,4 @@
+import { useMemo } from "react";
 import { getHerosByPublisher } from "../../selectors/getHerosByPublisher"
 import { HeroCard } from "./HeroCard";
 
@@ -5,7 +6,9 @@ import { HeroCard } from "./HeroCard";
 
 export const HeroList = ({ publisher }) => {
     
-    const heros = getHerosByPublisher( publisher );
+    //useMemo => recordar los elementos y no tener que realizar la función de nuevo si no es necesario.
+    const heros = useMemo( () => getHerosByPublisher( publisher ), [publisher]);
+    // const heros = getHerosByPublisher( publisher );
     
     
     return (
