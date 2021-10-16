@@ -1,9 +1,11 @@
 
 import { useForm } from '../hooks/useForm';
-import { getHerosBySearch } from '../../selectors/getHerosBySearch';
 import { HeroCard } from '../heros/HeroCard';
+import { getHerosBySearch } from '../../selectors/getHerosBySearch';
 import { useLocation } from 'react-router';
 import queryString from 'query-string';
+import { useMemo } from 'react';
+
 
 import { AiOutlineSearch } from 'react-icons/ai';
 
@@ -12,18 +14,19 @@ import { AiOutlineSearch } from 'react-icons/ai';
 export const SearchScreen = ({ history }) => {
     
     const location = useLocation();
-    const { q } = ( queryString.parse( location.search ) );
+    const { q = '' } = ( queryString.parse( location.search ) );
 
-    const [ {hero}, handleInputChange, reset ] = useForm({
-        hero: '',
+    const [ {hero}, handleInputChange ] = useForm({
+        hero: q,
     });
+
+    // const herosFiltered = getHerosBySearch( hero );
+    const herosFiltered = useMemo( () => getHerosBySearch( hero ), [q]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
         history.push(`?q=${ hero }`);
-
-        reset();
     }
     
     
@@ -51,7 +54,7 @@ export const SearchScreen = ({ history }) => {
 
                         <button
                             type="submit"
-                            className="btn m-1 btn-block btn-outline-primary"
+                            className="btn mt-1 btn-block btn-outline-primary"
                         >
                             <AiOutlineSearch />
                         </button>
@@ -64,12 +67,28 @@ export const SearchScreen = ({ history }) => {
                     <hr />
 
                     {
-                        // heros.map( hero => (
-                        //     <HeroCard 
-                        //         key={ hero.id }
-                        //         {...hero /*envia en prop, las propiedades del objeto por separado*/ }
-                        //     />
-                        // ))
+                        (q === '')
+                        &&
+                            <div className="alert alert-info">
+                                Please, search a hero!
+                            </div>
+                    }
+
+                    {
+                        (q !== '' && herosFiltered.length < 1 )
+                        &&
+                            <div className="alert alert-danger">
+                                There is no a hero "{q}"
+                            </div>
+                    }
+
+                    {
+                        herosFiltered.map( hero => (
+                            <HeroCard 
+                                key={ hero.id }
+                                {...hero /*envia en prop, las propiedades del objeto por separado*/ }
+                            />
+                        ))
                     }
                 </div>
             </div>
