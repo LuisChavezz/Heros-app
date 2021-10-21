@@ -1,5 +1,5 @@
 
-import { useForm } from '../hooks/useForm';
+import { useForm } from '../../hooks/useForm';
 import { HeroCard } from '../heros/HeroCard';
 import { getHerosBySearch } from '../../selectors/getHerosBySearch';
 import { useLocation } from 'react-router';
