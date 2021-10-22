@@ -22,7 +22,7 @@ export const HeroCard = ({
                     <img 
                         src={`./assets/heroes/${ id }.jpg`} 
                         className="card-img"
-                        alt={ superhero } 
+                        alt={ id } 
                     />
                 </div>
 
