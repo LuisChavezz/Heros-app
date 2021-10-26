@@ -2,13 +2,26 @@
 import { GrLogin } from 'react-icons/gr';
 import { useHistory } from 'react-router';
 
-export const LoginScreen = (props) => {
+import { useContext } from 'react';
+import { AuthContext } from '../../auth/AuthContext';
+import { types } from '../../types/types';
+
+export const LoginScreen = () => {
     
     let history = useHistory();
+
+    const { dispatch } = useContext( AuthContext );
 
     const handleLogin = () => {
         // history.push('/');
         history.replace('/');
+
+        dispatch( {
+            type: types.login,
+            payload: {
+                name: 'Luigiberto',
+            }
+        } );
     }
     
     
