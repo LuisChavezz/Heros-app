@@ -1,6 +1,8 @@
 import { Redirect, useParams } from "react-router"
 import { getHerosById } from "../../selectors/getHerosById";
 
+//usar imágenes de 'src' de manera dinámica
+const heroImages = require.context('../../assets/heroes', true); //función de webpack
 
 export const HeroScreen = ({ history }) => {
     
@@ -26,7 +28,8 @@ export const HeroScreen = ({ history }) => {
         <div className="row mt-5">
             <div className="col-4">
                 <img 
-                    src={ `../assets/heroes/${ heroId }.jpg` }
+                    // src={ `../assets/heroes/${ heroId }.jpg` }
+                    src={ heroImages(`./${ heroId }.jpg`).default }
                     alt={ hero.superhero } 
                     className="img-thumbnail"    
                 />

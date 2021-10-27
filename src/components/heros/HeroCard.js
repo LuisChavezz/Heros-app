@@ -1,6 +1,9 @@
 
 import { Link } from "react-router-dom";
 
+//usar imágenes de 'src' de manera dinámica
+const heroImages = require.context('../../assets/heroes', true); //función de webpack
+
 export const HeroCard = ({ 
     //props//
 
@@ -20,7 +23,8 @@ export const HeroCard = ({
             <div className="row no-gutters">
                 <div className="col-md-4">
                     <img 
-                        src={`./assets/heroes/${ id }.jpg`} 
+                        // src={`./assets/heroes/${ id }.jpg`} 
+                        src={ heroImages(`./${ id }.jpg`).default }
                         className="card-img"
                         alt={ id } 
                     />
